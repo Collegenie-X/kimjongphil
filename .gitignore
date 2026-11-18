@@ -80,3 +80,8 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,windows
+# video build cache
+video/build/assets/
+video/build/out/
+video/build/out_short/
+video/build/.venv/
