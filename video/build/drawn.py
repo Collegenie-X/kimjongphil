@@ -179,41 +179,45 @@ def d_dagachi():
     return b, stripe("#fff3ec", "#ffe9dd")
 
 # ---------------- vibe coding process ----------------
-def d_loop():
-    import math
-    cx, cy, r = 540, 900, 330
-    b = (f'<svg class="abs" style="left:0;top:0" width="1080" height="1920"><circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="#FFB38A" stroke-width="14" stroke-dasharray="30 22"/></svg>')
-    items = [("🗣️", "말한다", "\"이런 화면 만들어 줘\"", -90, ORG), ("👀", "본다", "AI가 만든 화면", 30, BLUE), ("🔧", "다듬는다", "\"버튼을 더 크게\"", 150, PUR)]
-    for e, t, s, ang, c in items:
-        x = cx + r * math.cos(math.radians(ang)) - 200; y = cy + r * math.sin(math.radians(ang)) - 130
-        b += box(f'<div style="font-size:90px">{e}</div><div style="font-size:54px;color:{c}">{t}</div><div style="font-size:30px;color:#666">{s}</div>',
-                 x, y, 400, border=c, pad=20, extra="text-align:center")
-    b += emo("🔁", cx - 60, cy - 70, 120)
-    b += chip("마음에 들면 🎉 완성!", GRN, 330, 1390, 46)
-    return b, stripe("#fff8ec", "#fff0d9")
-
-def d_conductor():
-    b = box('<div style="font-size:130px">🧑‍🎓🎼</div><div style="font-size:66px;color:#FF6B35;margin-top:6px">나는 지휘자</div>'
-            '<div style="font-size:38px;color:#555;margin-top:10px">무엇을 · 왜 · 누구를 위해</div>', 70, 280, 940, border="#FF6B35", pad=30, extra="text-align:center")
-    b += box('<div style="font-size:130px">🤖🎻</div><div style="font-size:66px;color:#1CB0F6;margin-top:6px">AI는 연주자</div>'
-             '<div style="font-size:38px;color:#555;margin-top:10px">코드를 쓰고 화면을 만든다</div>', 70, 760, 940, border=BLUE, pad=30, extra="text-align:center")
-    axes = ["❓ 왜", "📍 맥락", "🧱 제약", "📏 기준", "⚖️ 검증", "✂️ 버릴 것"]
-    b += txt("좋은 주문서의 여섯 축", 70, 1250, 40, "#777", w=940, align="center")
-    for i, a in enumerate(axes):
-        b += chip(a, (ORG, BLUE, PUR, GRN, PINK, "#00B8A9")[i], 80 + (i % 3) * 320, 1320 + (i // 3) * 100, 38, (-2, 2, -1)[i % 3])
-    return b, stripe("#f2f8ff", "#e8f2ff")
-
-def d_stairs():
-    steps = [("📄", "손그림"), ("📝", "주문서"), ("🎨", "화면 만들기"), ("🍱", "모형 데이터"), ("🕵️", "탐정 놀이"), ("🌐", "가게 오픈")]
-    tools = ["종이", "프롬프트", "v0", "예시 내용", "테스트·수정", "Vercel 배포"]
+ME, AI = "#FF6B35", BLUE
+def d_process():
+    """One-page summary: talk -> see -> refine (loop) -> open, with who does each step (me = conductor, AI = player)."""
+    steps = [("🗣️", "말한다", "손그림 + 주문서(프롬프트)", ORG, ("🧑‍🎓 나", ME)),
+             ("👀", "본다", "AI가 화면·예시 데이터를 뚝딱", BLUE, ("🤖 AI", AI)),
+             ("🔧", "다듬는다", "써 보고 \"버튼 더 크게!\"", PUR, ("🧑‍🎓 나", ME)),
+             ("🌐", "오픈!", "Vercel 배포 → 내 서비스 주소", GRN, ("🎉 완성", GRN))]
+    X, W_, Y0, STEP, BH = 60, 830, 280, 250, 190
     b = ""
-    for i, (e, t) in enumerate(steps):
-        x = 60 + i * 160; y = 1380 - i * 175; h = 1530 - y
-        c = (ORG if i == 1 else GRN if i == 5 else "#BDBDBD")
-        b += (f'<div class="abs" style="left:{x}px;top:{y}px;width:160px;height:{h}px;background:#fff;border:5px solid {c};border-bottom:none;border-radius:20px 20px 0 0"></div>'
-              + emo(e, x + 30, y - 110, 96) + txt(t, x - 20, y + 18, 32, INK, w=200, align="center") + txt(tools[i], x - 20, y + 62, 26, "#888", w=200, align="center"))
-    b += chip("↺ 손님 의견 듣고 다시 2번 계단으로", "#FF6B35", 70, 290, 40, -2)
-    return b, stripe("#f6fbef", "#eef7e4")
+    for i, (e, t, s, c, (role, rc)) in enumerate(steps):
+        y = Y0 + i * STEP
+        b += box(f'<div style="display:flex;align-items:center;gap:24px;height:{BH - 61}px">'
+                 f'<span style="font-size:96px;line-height:1">{e}</span>'
+                 f'<div style="flex:1"><div style="font-size:64px;color:{c};line-height:1.1">{t}</div>'
+                 f'<div style="font-size:34px;color:#555;margin-top:8px;word-break:keep-all">{s}</div></div>'
+                 f'<span style="font-size:34px;color:#fff;background:{rc};padding:10px 22px;border-radius:999px;white-space:nowrap;'
+                 f'border-bottom:6px solid rgba(0,0,0,.18)">{role}</span></div>',
+                 X, y, W_, border=c, pad=22, bg="#F4FFE9" if i == 3 else "#fff")
+        b += (f'<div class="abs" style="left:{X - 18}px;top:{y - 18}px;width:62px;height:62px;border-radius:50%;background:{c};color:#fff;'
+              f'font-size:38px;display:flex;align-items:center;justify-content:center;border:5px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,.15)">{i + 1}</div>')
+        if i < 3:
+            b += f'<div class="abs" style="left:{X + 70}px;top:{y + BH + 4}px;font-size:46px;color:#C8C8C8;line-height:1">▼</div>'
+    # loop: from 3 (refine) back up to 2 (see) until it feels right
+    y2, y3 = Y0 + STEP + BH // 2, Y0 + 2 * STEP + BH // 2
+    xr = X + W_
+    b += (f'<svg class="abs" style="left:0;top:0" width="1080" height="1920"><defs><marker id="ah" viewBox="0 0 8 8" markerUnits="userSpaceOnUse" markerWidth="40" markerHeight="40" refX="7" refY="4" orient="auto">'
+          f'<path d="M0,0 L8,4 L0,8 z" fill="{PUR}"/></marker></defs>'
+          f'<path d="M{xr + 6},{y3} C{xr + 190},{y3} {xr + 190},{y2} {xr + 14},{y2}" fill="none" stroke="{PUR}" stroke-width="12" '
+          f'stroke-dasharray="26 16" stroke-linecap="round" marker-end="url(#ah)"/></svg>')
+    b += (f'<div class="abs" style="left:{xr + 72}px;top:{(y2 + y3) // 2 - 50}px;width:100px;height:100px;border-radius:50%;background:#fff;'
+          f'border:5px solid {PUR};display:flex;align-items:center;justify-content:center;font-size:56px">🔁</div>')
+    b += chip("마음에 들 때까지", PUR, xr - 236, (y2 + y3) // 2 - 34, 28)
+    # who does what
+    half = lambda e, t, s, c: (f'<div style="flex:1;text-align:center"><div style="font-size:46px;color:{c}">{e} {t}</div>'
+                               f'<div style="font-size:32px;color:#666;margin-top:6px">{s}</div></div>')
+    b += box('<div style="display:flex;align-items:center">' + half("🧑‍🎓", "나는 지휘자", "무엇을 · 왜 · 누구를 위해", ME)
+             + '<div style="width:4px;height:90px;background:#E5E5E5;border-radius:2px"></div>' + half("🤖", "AI는 연주자", "코드를 쓰고 화면을 만든다", AI) + '</div>',
+             X, Y0 + 4 * STEP - 10, 960, pad=24)
+    return b, stripe("#fff8ec", "#fff0d9")
 
 def d_speed():
     b = txt("작은 서비스 하나 만드는 시간", 70, 270, 54, w=940, align="center")
@@ -242,7 +246,7 @@ def d_url(mob):
 import os as _os
 _MOB = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "assets", "mobile")
 DRAWN = dict(DRAWN_BASE, d_years=d_years, d_where=d_where, d_programs=d_programs, d_course=d_course, d_dagachi=d_dagachi,
-             d_loop=d_loop, d_conductor=d_conductor, d_stairs=d_stairs, d_speed=d_speed,
+             d_process=d_process, d_speed=d_speed,
              d_url=lambda: d_url(f"{_MOB}/teenspark.png"))
 
 # ---------------- motivation: why project classes (aimakerlab.com/why-project) ----------------

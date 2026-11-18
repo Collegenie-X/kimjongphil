@@ -67,12 +67,10 @@ SCENES = [
          narr="다가치학교에서는 문제 찾기부터 배포까지, 오 일 과정을 이끌었어요.", cap="문제 찾기부터 배포까지|**5일 과정** 운영"),
 
     # --- vibe coding process ---
-    dict(id="v01", bg=("card", "d_loop"), pill="바이브 코딩 프로세스",
-         narr="바이브 코딩은 간단해요. 말하고, 보고, 다듬는다.", cap="**말한다 → 본다 → 다듬는다**"),
-    dict(id="v02", bg=("card", "d_conductor"), pill="역할 나누기",
-         narr="무엇을, 왜, 누구를 위해 만들지는 내가 정하고, 코드는 에이아이가 써요.", cap="나는 **지휘자**, AI는 연주자"),
-    dict(id="v03", bg=("card", "d_stairs"), pill="코딩 없이 만드는 6계단",
-         narr="손그림, 주문서, 화면, 모형 데이터, 테스트, 그리고 배포까지. 여섯 계단.", cap="손그림부터 배포까지|**6계단**"),
+    # one-page summary (was 3 cards: loop / conductor / 6 stairs)
+    dict(id="v01", bg=("card", "d_process"), pill="바이브 코딩 프로세스",
+         narr="바이브 코딩은 간단해요. 말하고, 보고, 다듬는다. 무엇을, 왜, 누구를 위해 만들지는 내가 정하고, 코드는 에이아이가 써요.",
+         cap="**말한다 → 본다 → 다듬는다**|나는 지휘자, AI는 연주자"),
     dict(id="v04", bg=("card", "d_speed"), pill="왜 바이브 코딩인가",
          narr="칠 시간 걸리던 작은 서비스가, 수업에서는 삼십오 분.", cap="작은 서비스 하나|7시간 → **35분**"),
     dict(id="v05", bg=("card", "d_url"), pill="수업이 끝나면",
