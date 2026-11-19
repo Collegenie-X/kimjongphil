@@ -85,3 +85,6 @@ video/build/assets/
 video/build/out/
 video/build/out_short/
 video/build/.venv/
+video/build_v2/out/
+video/build_v2/.venv/
+video/build_v2/rec/node_modules/
